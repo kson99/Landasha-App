@@ -33,6 +33,12 @@ const search = StyleSheet.create({
     padding: 1,
     borderRadius: 50,
   },
+
+  list: {
+    borderTopColor: COLORS.background,
+    borderTopWidth: 4,
+    paddingVertical: SIZES.xxSmall,
+  },
 });
 
 export default search;

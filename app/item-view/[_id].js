@@ -7,6 +7,7 @@ import {
   FlatList,
   Dimensions,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { itemView } from "../../styles";
@@ -15,13 +16,14 @@ import { COLORS } from "../../constants";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import useFetch from "../../hooks/useFetch";
 import { appContext } from "../../grobal/context";
+import { addToCollection, removeItem } from "../../database/sqlite.service";
 
 const width = Dimensions.get("window").width;
 
 const ItemView = () => {
-  const { items, isLoading, error } = useContext(appContext);
+  const { items, isLoading, error, collection, reflesh, setReflesh } =
+    useContext(appContext);
   const router = useRouter();
   const { _id } = useLocalSearchParams();
 
@@ -54,6 +56,34 @@ const ItemView = () => {
     });
 
     return array;
+  };
+
+  const isInCollection = () => {
+    let is = false;
+
+    if (collection.includes(_item?.itemId)) {
+      is = true;
+    }
+
+    return is;
+  };
+
+  const addOrRemove = async () => {
+    if (isInCollection()) {
+      try {
+        await removeItem(_item.itemId);
+        setReflesh(reflesh + 1);
+      } catch (error) {
+        Alert("Failed, try again");
+      }
+    } else {
+      try {
+        await addToCollection(_item.itemId);
+        setReflesh(reflesh + 1);
+      } catch (error) {
+        Alert("Failed, try again");
+      }
+    }
   };
 
   return (
@@ -151,6 +181,7 @@ const ItemView = () => {
         </ScrollView>
       )}
 
+      {/* Bottom Bar */}
       {!isLoading && !error && (
         <View style={itemView.buttonsBox}>
           <View style={{ flexDirection: "row" }}>
@@ -158,9 +189,16 @@ const ItemView = () => {
               <MaterialIcons name="storefront" size={30} color={COLORS.grey} />
               <Text style={itemView.buttonsTxt}>Shop</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={itemView.buttons}>
-              <Ionicons name="heart-outline" size={30} color={COLORS.grey} />
-              <Text style={itemView.buttonsTxt}>Collect</Text>
+
+            <TouchableOpacity style={itemView.buttons} onPress={addOrRemove}>
+              <Ionicons
+                name={isInCollection() ? "heart" : "heart-outline"}
+                size={30}
+                color={COLORS.grey}
+              />
+              <Text style={itemView.buttonsTxt}>
+                {isInCollection() ? "Remove" : "Collect"}
+              </Text>
             </TouchableOpacity>
           </View>
 

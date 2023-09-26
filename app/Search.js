@@ -66,12 +66,14 @@ const Search = () => {
 
       {isSearch && (
         <View>
-          <Text>results for: {searchTxt}</Text>
+          {/* <Text>results for: {searchTxt}</Text> */}
 
           <FlatList
+            style={search.list}
             data={results}
             renderItem={({ item }) => <ResultItemCard item={item} />}
             keyExtractor={(item) => item?.id}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       )}

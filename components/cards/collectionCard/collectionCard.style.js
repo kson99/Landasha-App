@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     height: 130,
     flexDirection: "row",
     gap: 10,
+    backgroundColor: COLORS.white,
   },
 
   image: {

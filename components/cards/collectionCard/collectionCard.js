@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import styles from "./resultItemCard.style";
 import { useRouter } from "expo-router";
+import styles from "./collectionCard.style";
 
-const ResultItemCard = ({ item }) => {
+const CollectionCard = ({ item }) => {
   const router = useRouter();
   const images = item ? eval(item.images) : [];
 
@@ -38,4 +38,4 @@ const ResultItemCard = ({ item }) => {
   );
 };
 
-export default ResultItemCard;
+export default CollectionCard;

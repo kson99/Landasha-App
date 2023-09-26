@@ -8,6 +8,7 @@ import Recents from "./recents/recents";
 import SearchBtn from "./header/searchBtn/searchBtn";
 import ItemCard from "./cards/itemCard/itemCard";
 import ResultItemCard from "./cards/resultItemCard/resultItemCard";
+import CollectionCard from "./cards/collectionCard/collectionCard";
 
 export {
   SearchBtn,
@@ -20,4 +21,5 @@ export {
   Recents,
   ItemCard,
   ResultItemCard,
+  CollectionCard,
 };
