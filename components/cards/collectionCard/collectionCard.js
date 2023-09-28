@@ -24,7 +24,7 @@ const CollectionCard = ({ item }) => {
 
       {/* details */}
       <View style={styles.details}>
-        <Text>{item?.name}</Text>
+        <Text style={styles.name}>{item?.name}</Text>
         <Text></Text>
         <Text style={styles.price}>
           N${" "}

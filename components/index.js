@@ -9,6 +9,9 @@ import SearchBtn from "./header/searchBtn/searchBtn";
 import ItemCard from "./cards/itemCard/itemCard";
 import ResultItemCard from "./cards/resultItemCard/resultItemCard";
 import CollectionCard from "./cards/collectionCard/collectionCard";
+import StoreCard from "./cards/storeCard/storeCard";
+import Login from "./login/login";
+import Register from "./register/register";
 
 export {
   SearchBtn,
@@ -22,4 +25,7 @@ export {
   ItemCard,
   ResultItemCard,
   CollectionCard,
+  StoreCard,
+  Login,
+  Register,
 };

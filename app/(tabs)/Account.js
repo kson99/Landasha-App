@@ -1,12 +1,14 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
+import { Login, Register } from "../../components";
 
 const Account = () => {
-	return (
-		<View>
-			<Text>Account</Text>
-		</View>
-	);
+  return (
+    <SafeAreaView>
+      {/* <Login /> */}
+      <Register />
+    </SafeAreaView>
+  );
 };
 
 export default Account;

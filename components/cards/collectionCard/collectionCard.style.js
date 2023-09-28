@@ -30,10 +30,16 @@ const styles = StyleSheet.create({
     paddingRight: SIZES.xxSmall,
   },
 
+  name: {
+    fontSize: 18,
+    color: COLORS.primary,
+    fontWeight: "500",
+  },
+
   price: {
     color: "red",
     fontWeight: "bold",
-    fontSize: SIZES.medium,
+    fontSize: SIZES.large,
     paddingBottom: 5,
   },
 });

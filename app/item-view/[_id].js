@@ -89,7 +89,7 @@ const ItemView = () => {
   return (
     <SafeAreaView style={itemView.safeArea}>
       {!isLoading && !error && (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={itemView.imageBox}>
             <ScrollView
               onScroll={({ nativeEvent }) => imageScroll(nativeEvent)}
@@ -194,7 +194,7 @@ const ItemView = () => {
               <Ionicons
                 name={isInCollection() ? "heart" : "heart-outline"}
                 size={30}
-                color={COLORS.grey}
+                color={isInCollection() ? "red" : COLORS.grey}
               />
               <Text style={itemView.buttonsTxt}>
                 {isInCollection() ? "Remove" : "Collect"}

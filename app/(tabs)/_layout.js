@@ -47,7 +47,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="Stores"
         options={{
-          headerShown: false,
+          headerTitleAlign: "center",
         }}
       />
 
