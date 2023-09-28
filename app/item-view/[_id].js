@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { itemView } from "../../styles";
+import { common, itemView } from "../../styles";
 import { HeaderBtn, ItemCard } from "../../components";
 import { COLORS } from "../../constants";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -87,9 +87,12 @@ const ItemView = () => {
   };
 
   return (
-    <SafeAreaView style={itemView.safeArea}>
+    <SafeAreaView style={common.safeArea}>
       {!isLoading && !error && (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={common.scrollView}
+        >
           <View style={itemView.imageBox}>
             <ScrollView
               onScroll={({ nativeEvent }) => imageScroll(nativeEvent)}

@@ -1,21 +1,19 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES } from "../../../constants";
+import { COLORS, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    height: 80,
+  profCard: {
+    height: 100,
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
     paddingHorizontal: SIZES.small,
     backgroundColor: COLORS.white,
-    marginBottom: 1,
   },
 
   image: {
-    height: 40,
-    width: 40,
+    height: 60,
+    width: 60,
     borderRadius: 3,
   },
 
@@ -38,6 +36,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.grey,
     fontWeight: "300",
+  },
+
+  myItems: {
+    marginTop: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+    minHeight: 200,
+    justifyContent: "center",
   },
 });
 

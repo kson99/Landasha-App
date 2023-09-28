@@ -2,12 +2,6 @@ import { StatusBar, StyleSheet } from "react-native";
 import { COLORS, SIZES } from "../constants";
 
 const search = StyleSheet.create({
-  safeArea: {
-    paddingTop: StatusBar.currentHeight,
-    backgroundColor: COLORS.white,
-    flex: 1,
-  },
-
   appBar: {
     width: "100%",
     flexDirection: "row",

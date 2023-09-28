@@ -10,8 +10,7 @@ import ItemCard from "./cards/itemCard/itemCard";
 import ResultItemCard from "./cards/resultItemCard/resultItemCard";
 import CollectionCard from "./cards/collectionCard/collectionCard";
 import StoreCard from "./cards/storeCard/storeCard";
-import Login from "./login/login";
-import Register from "./register/register";
+import Profile from "./profile/profile";
 
 export {
   SearchBtn,
@@ -26,6 +25,5 @@ export {
   ResultItemCard,
   CollectionCard,
   StoreCard,
-  Login,
-  Register,
+  Profile,
 };

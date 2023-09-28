@@ -5,12 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { HeaderBtn, ResultItemCard } from "../components";
 import { COLORS } from "../constants";
 import { useRouter } from "expo-router";
-import { search } from "../styles";
+import { common, search } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { appContext } from "../grobal/context";
 
@@ -40,7 +41,7 @@ const Search = () => {
   };
 
   return (
-    <SafeAreaView style={search.safeArea}>
+    <SafeAreaView style={common.safeArea}>
       <View style={search.appBar}>
         <HeaderBtn
           name="chevron-back"
@@ -65,7 +66,7 @@ const Search = () => {
       </View>
 
       {isSearch && (
-        <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* <Text>results for: {searchTxt}</Text> */}
 
           <FlatList
@@ -73,9 +74,10 @@ const Search = () => {
             data={results}
             renderItem={({ item }) => <ResultItemCard item={item} />}
             keyExtractor={(item) => item?.id}
-            showsVerticalScrollIndicator={false}
+            // showsVerticalScrollIndicator={false}
+            scrollEnabled={false}
           />
-        </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );

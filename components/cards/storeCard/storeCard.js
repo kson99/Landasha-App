@@ -1,12 +1,18 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from "./storeCard.style";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../constants";
+import { useRouter } from "expo-router";
 
 const StoreCard = ({ item }) => {
+  const router = useRouter();
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => router.push(`/store/${item.userUid}`)}
+    >
       <View>
         {item?.imageUrl ? (
           <Image
@@ -24,6 +30,7 @@ const StoreCard = ({ item }) => {
           </View>
         )}
       </View>
+
       <View>
         <Text style={styles.shopName}>{item.shopName}</Text>
 
@@ -32,7 +39,7 @@ const StoreCard = ({ item }) => {
           <Text style={styles.location}>{item.location}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
