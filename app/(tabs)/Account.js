@@ -13,13 +13,15 @@ import { appContext } from "../../grobal/context";
 import { Profile } from "../../components";
 
 const Account = () => {
-  const { loggedIn } = useContext(appContext);
+  const { loggedIn, profileOptionMenu } = useContext(appContext);
   const router = useRouter();
 
   return (
     <SafeAreaView style={common.safeArea}>
       {loggedIn ? (
-        <Profile />
+        <View>
+          <Profile />
+        </View>
       ) : (
         <View style={common.page}>
           <View style={common.form}>

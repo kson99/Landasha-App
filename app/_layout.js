@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import React from "react";
+import React, { useRef, useState } from "react";
 import Context from "../grobal/context";
 
 function Layout() {
@@ -15,7 +15,9 @@ function Layout() {
             headerShadowVisible: false,
           }}
         />
+
         <Stack.Screen name="item-view/[_id]" options={{ headerShown: false }} />
+
         <Stack.Screen
           name="Login"
           options={{
@@ -23,9 +25,28 @@ function Layout() {
             headerBackTitleVisible: false,
           }}
         />
+
         <Stack.Screen
           name="Register"
           options={{
+            headerTitleAlign: "center",
+            headerBackTitleVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="EditStore"
+          options={{
+            title: "Edit Store",
+            headerTitleAlign: "center",
+            headerBackTitleVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="AddItem"
+          options={{
+            title: "Add Item",
             headerTitleAlign: "center",
             headerBackTitleVisible: false,
           }}

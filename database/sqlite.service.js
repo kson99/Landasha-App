@@ -17,7 +17,10 @@ const getCollection = () => {
         (txObj, { rows: { _array } }) => {
           resolve(_array);
         },
-        (err) => console.log("getting collection failed: ")
+        (err) => {
+          console.log("getting collection failed: ");
+          reject(err);
+        }
       );
     });
   });

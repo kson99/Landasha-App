@@ -2,11 +2,16 @@ import { StyleSheet } from "react-native";
 import { COLORS, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
   profCard: {
+    position: "relative",
     height: 100,
     flexDirection: "row",
-    alignItems: "center",
     gap: 15,
+    paddingVertical: 10,
     paddingHorizontal: SIZES.small,
     backgroundColor: COLORS.white,
   },
@@ -43,6 +48,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.xxSmall,
     minHeight: 200,
     justifyContent: "center",
+  },
+
+  option: {
+    position: "absolute",
+    right: 5,
+    top: 10,
+  },
+
+  menu: {
+    height: 500,
+    position: "absolute",
+    right: 10,
+    // top: 5,
+    bottom: 10,
+    backgroundColor: COLORS.custGrey,
+    zIndex: 999,
   },
 });
 

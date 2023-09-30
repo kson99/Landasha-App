@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import { createTable, getCollection } from "../database/sqlite.service";
 import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
@@ -13,17 +12,14 @@ const Context = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userUid, setUserUid] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [collection, setCollection] = useState([]);
   const [reflesh, setReflesh] = useState(0);
-
-  const { data, isLoading, error } = useFetch("Items", "");
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setLoggedIn(true);
-      setUserUid(user.uid);
-
       let _user = users.find(({ userUid }) => userUid === user.uid);
       if (_user) {
         setUser(_user);
@@ -32,6 +28,24 @@ const Context = ({ children }) => {
       setLoggedIn(false);
     }
   });
+
+  const getData = async () => {
+    setIsLoading(true);
+
+    try {
+      await axios.get(url + "/Items").then((res) => {
+        setItems(res.data);
+      });
+
+      await axios.get(url + "/Users").then((res) => {
+        setUsers(res.data);
+      });
+    } catch (error) {
+      setError(true);
+    }
+
+    setIsLoading(false);
+  };
 
   const getCollectionItems = async () => {
     let col = await getCollection();
@@ -43,21 +57,14 @@ const Context = ({ children }) => {
     setCollection(_col);
   };
 
-  const getUsers = async () => {
-    await axios.get(url + "/Users").then((res) => {
-      setUsers(res.data);
-    });
-  };
-
   useEffect(() => {
     createTable();
   }, []);
 
   useEffect(() => {
-    setItems(data);
-    getUsers();
+    getData();
     getCollectionItems();
-  }, [reflesh, data]);
+  }, [reflesh]);
 
   return (
     <appContext.Provider

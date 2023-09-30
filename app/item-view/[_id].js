@@ -87,7 +87,7 @@ const ItemView = () => {
   };
 
   return (
-    <SafeAreaView style={common.safeArea}>
+    <SafeAreaView style={itemView.safeArea}>
       {!isLoading && !error && (
         <ScrollView
           showsVerticalScrollIndicator={false}
