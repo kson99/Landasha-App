@@ -22,9 +22,19 @@ const addItem = StyleSheet.create({
     gap: 20,
   },
 
+  imageHolder: {
+    position: "relative",
+  },
+
   image: {
     height: 100,
-    width: "auto",
+    width: 100,
+  },
+
+  remove: {
+    position: "absolute",
+    right: -13,
+    top: -13,
   },
 
   upload: {

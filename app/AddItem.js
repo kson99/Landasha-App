@@ -1,4 +1,11 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-gesture-handler";
@@ -6,11 +13,33 @@ import { addItem, common } from "../styles";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants";
+import * as ImagePicker from "expo-image-picker";
 
 const AddItem = () => {
   const [images, setImages] = useState([]);
   const categories = ["For Sale", "For Rent", "Closet"];
   const { control, handleSubmit } = useForm({ defaultValues: {} });
+
+  const imagePicker = async () => {
+    let picked = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+      aspect: [1, 1],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (!picked.canceled) {
+      setImages((prev) => [...prev, picked.assets[0].uri]);
+    } else {
+      console.log("No image selected");
+    }
+  };
+
+  const removeImage = (index) => {
+    setImages((prev) => prev.filter((img, i) => i !== index));
+
+    console.log(images.length);
+  };
 
   const upload = async (data) => {
     console.log(data);
@@ -58,21 +87,32 @@ const AddItem = () => {
           <Text style={common.inputLabel}>Images</Text>
           <View style={addItem.images}>
             {images.map((image, _i) => (
-              <Image
-                source={image}
-                resizeMode="contain"
-                style={addItem.image}
-              />
+              <View key={_i} style={addItem.imageHolder}>
+                <Image
+                  source={{ uri: image }}
+                  resizeMode="cover"
+                  style={addItem.image}
+                />
+
+                <Pressable
+                  onPress={() => removeImage(_i)}
+                  style={addItem.remove}
+                >
+                  <Ionicons name="close-circle" color="red" size={20} />
+                </Pressable>
+              </View>
             ))}
 
-            <View style={addItem.upload}>
-              <Ionicons
-                name="cloud-upload-outline"
-                size={30}
-                color={COLORS.grey}
-              />
-              <Text style={addItem.uploadText}>Add image</Text>
-            </View>
+            {images.length < 5 && (
+              <Pressable onPress={imagePicker} style={addItem.upload}>
+                <Ionicons
+                  name="cloud-upload-outline"
+                  size={30}
+                  color={COLORS.grey}
+                />
+                <Text style={addItem.uploadText}>Add image</Text>
+              </Pressable>
+            )}
           </View>
         </View>
 

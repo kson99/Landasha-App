@@ -4,17 +4,26 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Pressable,
+  Image,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { appContext } from "../grobal/context";
-import { common } from "../styles";
+import { appContext, url } from "../grobal/context";
+import { common, editStore } from "../styles";
 import { Picker } from "@react-native-picker/picker";
 import { COLORS, locations } from "../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Stack } from "expo-router";
+import { HeaderBtn } from "../components";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../database/firebase.service";
 
 const EditStore = () => {
   const { user } = useContext(appContext);
+  const [image, setImage] = useState(null);
   const { control, handleSubmit } = useForm({
     defaultValues: {
       shopName: user.shopName,
@@ -24,42 +33,85 @@ const EditStore = () => {
     },
   });
 
-  const saveChanges = (data) => {
-    console.log(data);
+  const imagePicker = async () => {
+    let picked = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+      aspect: [1, 1],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (!picked.canceled) {
+      console.log(picked);
+      setImage(picked.assets[0].uri);
+    } else {
+      console.log("No image selected");
+    }
+  };
+
+  const saveChanges = async (data) => {
+    const imgData = await fetch(image);
+    const blob = imgData.blob();
+    try {
+      // let imageUrl = "";
+      const imageRef = ref(
+        storage,
+        `ProfilePictures/${user.userUid}.${image.split(".")[1]}`
+      );
+
+      await uploadBytes(imageRef, blob).then((res) => {
+        console.log("done: ", res);
+      });
+      // await axios.post(url + "/Users/update", { ...data, imageUrl });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={common.pageV2}>
-      <View style={common.formV2}>
-        <View
-          style={{
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
-            paddingBottom: 20,
-          }}
-        >
-          <View>
-            {user?.imageUrl ? (
-              <Image
-                source={{ uri: user.imageUrl }}
-                resizeMode="cover"
-                // style={styles.image}
-              />
-            ) : (
-              <View>
-                <MaterialCommunityIcons
-                  name="storefront"
-                  size={100}
-                  color={COLORS.grey}
-                />
-              </View>
-            )}
-          </View>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <HeaderBtn
+              name="checkmark"
+              handlePress={handleSubmit(saveChanges)}
+            />
+          ),
+        }}
+      />
 
-          <Text style={{ fontSize: 12, color: "blue", paddingTop: 5 }}>
-            Change Shop Picture or Avatar
-          </Text>
+      <View style={common.formV2}>
+        <View style={editStore.form}>
+          <Pressable onPress={imagePicker} style={editStore.imageHolder}>
+            <View>
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  resizeMode="contain"
+                  style={editStore.image}
+                />
+              ) : user?.imageUrl ? (
+                <Image
+                  source={{ uri: user.imageUrl }}
+                  resizeMode="cover"
+                  style={editStore.image}
+                />
+              ) : (
+                <View>
+                  <MaterialCommunityIcons
+                    name="storefront"
+                    size={180}
+                    color={COLORS.grey}
+                  />
+                </View>
+              )}
+            </View>
+
+            <Text style={{ fontSize: 12, color: "blue", paddingTop: 5 }}>
+              Change Shop Picture or Avatar
+            </Text>
+          </Pressable>
         </View>
 
         <View>
@@ -129,13 +181,6 @@ const EditStore = () => {
             )}
           />
         </View>
-
-        <TouchableOpacity
-          style={common.btn}
-          onPress={handleSubmit(saveChanges)}
-        >
-          <Text style={common.btnText}>Save Changes</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );

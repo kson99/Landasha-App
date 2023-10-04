@@ -10,7 +10,7 @@ import React, { useContext } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { common, store } from "../../styles";
 import { appContext } from "../../grobal/context";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { COLORS } from "../../constants";
 import { ItemCard } from "../../components";
 
@@ -29,6 +29,13 @@ const Store = () => {
 
   return (
     <SafeAreaView style={common.safeArea}>
+      <Stack.Screen
+        options={{
+          title: user.shopName,
+          headerTitleAlign: "center",
+        }}
+      />
+
       <View style={store.profCard}>
         <View>
           {user?.imageUrl ? (

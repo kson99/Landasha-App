@@ -92,7 +92,7 @@ const Profile = () => {
 
       <Modal
         visible={isMenu}
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setIsMenu(false)}
         transparent
       >
