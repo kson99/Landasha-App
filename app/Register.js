@@ -1,8 +1,14 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { locations } from "../constants";
+import { COLORS, locations } from "../constants";
 import { common } from "../styles";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../database/firebase.service";
@@ -14,7 +20,7 @@ const Register = () => {
   const { reflesh, setReflesh, users } = useContext(appContext);
 
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm({
     defaultValues: {
       shopName: "",
@@ -33,12 +39,11 @@ const Register = () => {
     );
     //password match check
     if (!data.password.match(data.rePassword)) {
-      console.log("re_password", "Passwords do not match!");
+      alert("Passwords do not match!");
     } else if (exist) {
-      console.log("phone number Already exists", "Username Already exist");
+      alert("phone number Already exists", "Username Already exist");
     } else {
-      // setErrMsg("");
-      setIsLoading(true);
+      setLoading(true);
       register(data);
     }
   };
@@ -52,23 +57,20 @@ const Register = () => {
         ...data,
         userUid: uid,
       };
-
-      console.log(data);
-
       axios.post(url + "/Users/signUp", data);
 
       await signOut(auth);
-      setIsLoading(false);
+      setLoading(false);
       setReflesh(reflesh + 1);
       router.push("/Login");
     } catch (error) {
-      setIsLoading(false);
+      setLoading(false);
       var errString = error.message;
 
       if (errString.includes("email")) {
-        console.log("email", "Email already registered");
+        alert("Email already registered");
       } else if (errString.includes("network-request-failed")) {
-        console.log("button", "Network connection failed");
+        alert("Network connection failed");
       }
     }
   };
@@ -177,7 +179,11 @@ const Register = () => {
         />
 
         <TouchableOpacity style={common.btn} onPress={handleSubmit(submit)}>
-          <Text style={common.btnText}>Register</Text>
+          {loading ? (
+            <ActivityIndicator color={COLORS.white} size="small" />
+          ) : (
+            <Text style={common.btnText}>Register</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

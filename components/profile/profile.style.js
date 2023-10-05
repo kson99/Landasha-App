@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 
   option: {
     position: "absolute",
-    right: 5,
-    top: 10,
+    right: 15,
+    top: 15,
   },
 
   menu: {

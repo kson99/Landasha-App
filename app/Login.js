@@ -1,13 +1,21 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { common } from "../styles";
 import { auth } from "../database/firebase.service";
 import { useRouter } from "expo-router";
+import { COLORS } from "../constants";
 
 const Login = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -16,18 +24,19 @@ const Login = () => {
   });
 
   const login = async (data) => {
-    console.log(data);
+    setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       var uid = auth.currentUser.uid;
 
       if (uid) {
-        console.log("User login successful", uid);
+        router.push("/Account");
       }
-      router.push("/Account");
     } catch (error) {
-      console.log(error);
+      alert(error.message);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -61,7 +70,11 @@ const Login = () => {
         />
 
         <TouchableOpacity style={common.btn} onPress={handleSubmit(login)}>
-          <Text style={common.btnText}>Login</Text>
+          {loading ? (
+            <ActivityIndicator color={COLORS.white} size="small" />
+          ) : (
+            <Text style={common.btnText}>Login</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

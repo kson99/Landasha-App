@@ -66,6 +66,8 @@ const common = StyleSheet.create({
     minWidth: "100%",
     padding: 10,
     borderRadius: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.lightGrey,
   },
 
   textArea: {

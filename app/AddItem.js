@@ -6,7 +6,7 @@ import {
   ScrollView,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-gesture-handler";
 import { addItem, common } from "../styles";
@@ -14,16 +14,33 @@ import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants";
 import * as ImagePicker from "expo-image-picker";
+import { uriToBlob } from "../util";
+import { storage } from "../database/firebase.service";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { appContext, url } from "../grobal/context";
+import uuid from "react-native-uuid";
+import { Stack, useRouter } from "expo-router";
+import axios from "axios";
+import { HeaderBtn } from "../components";
 
 const AddItem = () => {
+  const { user, reflesh, setReflesh } = useContext(appContext);
+  const router = useRouter();
   const [images, setImages] = useState([]);
   const categories = ["For Sale", "For Rent", "Closet"];
-  const { control, handleSubmit } = useForm({ defaultValues: {} });
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      name: "",
+      categories: categories[0],
+      description: "",
+      price: "",
+    },
+  });
 
   const imagePicker = async () => {
     let picked = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: 0.5,
       aspect: [1, 1],
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
@@ -43,10 +60,52 @@ const AddItem = () => {
 
   const upload = async (data) => {
     console.log(data);
+    const itemId = uuid.v4();
+    if (images.length === 0) {
+      alert("Image required");
+    } else {
+      let _images = [];
+
+      await Promise.all(
+        images.map(async (img, i) => {
+          const blob = await uriToBlob(img);
+
+          try {
+            const imageRef = ref(storage, `ItemPictures/${itemId}/${i}`);
+            await uploadBytes(imageRef, blob).then(async (snapshot) => {
+              const imgUrl = await getDownloadURL(imageRef);
+              _images.push(imgUrl);
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        })
+      );
+
+      console.log("already");
+
+      await axios.post(url + "/Items/upload", {
+        ...data,
+        itemId,
+        owner: user.userUid,
+        images: JSON.stringify(_images),
+      });
+
+      console.log("upload complete");
+      setReflesh(reflesh + 1);
+      router.back();
+    }
   };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={addItem.page}>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <HeaderBtn name="checkmark" handlePress={handleSubmit(upload)} />
+          ),
+        }}
+      />
       <View style={addItem.form}>
         <View>
           <Text style={common.inputLabel}>Name</Text>
@@ -67,7 +126,7 @@ const AddItem = () => {
         <View>
           <Text style={common.inputLabel}>Category</Text>
           <Controller
-            name="location"
+            name="category"
             control={control}
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <Picker
@@ -148,10 +207,6 @@ const AddItem = () => {
             )}
           />
         </View>
-
-        <TouchableOpacity style={common.btn} onPress={handleSubmit(upload)}>
-          <Text style={common.btnText}>Upload</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={{ height: 60 }}></View>

@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../constants";
 
 const editStore = StyleSheet.create({
   form: {
@@ -16,6 +17,7 @@ const editStore = StyleSheet.create({
   image: {
     width: 180,
     height: 180,
+    backgroundColor: COLORS.lightGrey,
   },
 });
 

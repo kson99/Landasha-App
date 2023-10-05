@@ -181,6 +181,8 @@ const ItemView = () => {
               />
             </View>
           )}
+
+          <View style={{ height: 60 }}></View>
         </ScrollView>
       )}
 
@@ -188,7 +190,10 @@ const ItemView = () => {
       {!isLoading && !error && (
         <View style={itemView.buttonsBox}>
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity style={itemView.buttons}>
+            <TouchableOpacity
+              style={itemView.buttons}
+              onPress={() => router.push(`/store/${_item.owner}`)}
+            >
               <MaterialIcons name="storefront" size={30} color={COLORS.grey} />
               <Text style={itemView.buttonsTxt}>Shop</Text>
             </TouchableOpacity>

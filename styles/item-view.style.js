@@ -7,7 +7,7 @@ const width = Dimensions.get("window").width;
 const itemView = StyleSheet.create({
   safeArea: {
     // paddingTop: StatusBar.currentHeight,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.white,
     flex: 1,
   },
 
@@ -107,6 +107,9 @@ const itemView = StyleSheet.create({
   },
 
   buttonsBox: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
     backgroundColor: COLORS.white,
     height: 55,
     width: "100%",

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  Image,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { appContext } from "../../grobal/context";
@@ -68,6 +69,15 @@ const Profile = () => {
           <View style={styles.locationCont}>
             <Ionicons name="location" color={COLORS.grey} />
             <Text style={styles.location}>{user?.location}</Text>
+          </View>
+
+          <View style={styles.locationCont}>
+            <Ionicons name="call" color={COLORS.grey} />
+            <Text style={styles.location}>{user?.phoneNo}</Text>
+          </View>
+
+          <View style={styles.locationCont}>
+            <Text style={styles.location}>Items: {myItems().length}</Text>
           </View>
         </View>
 

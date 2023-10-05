@@ -5,6 +5,7 @@ import {
   Dimensions,
   ScrollView,
   SafeAreaView,
+  Image,
 } from "react-native";
 import React, { useContext } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -28,11 +29,12 @@ const Store = () => {
   };
 
   return (
-    <SafeAreaView style={common.safeArea}>
+    <ScrollView style={common.scrollView} showsVerticalScrollIndicator={false}>
       <Stack.Screen
         options={{
           title: user.shopName,
           headerTitleAlign: "center",
+          headerTitleStyle: { color: COLORS.primary, fontWeight: 800 },
         }}
       />
 
@@ -56,19 +58,25 @@ const Store = () => {
         </View>
 
         <View>
-          <Text style={store.shopName}>{user?.shopName}</Text>
+          {/* <Text style={store.shopName}>{user?.shopName}</Text> */}
 
           <View style={store.locationCont}>
             <Ionicons name="location" color={COLORS.grey} />
             <Text style={store.location}>{user?.location}</Text>
           </View>
+
+          <View style={store.locationCont}>
+            <Ionicons name="call" color={COLORS.grey} />
+            <Text style={store.location}>{user?.phoneNo}</Text>
+          </View>
+
+          <View style={store.locationCont}>
+            <Text style={store.location}>Items: {myItems().length}</Text>
+          </View>
         </View>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={common.scrollView}
-      >
+      <View>
         {myItems().length > 0 && (
           <View style={store.myItems}>
             <FlatList
@@ -81,8 +89,8 @@ const Store = () => {
           </View>
         )}
         <View style={{ height: 100 }}></View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 };
 

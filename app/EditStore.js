@@ -14,15 +14,17 @@ import { common, editStore } from "../styles";
 import { Picker } from "@react-native-picker/picker";
 import { COLORS, locations } from "../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { HeaderBtn } from "../components";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../database/firebase.service";
+import { uriToBlob } from "../util";
 
 const EditStore = () => {
-  const { user } = useContext(appContext);
+  const { user, reflesh, setReflesh } = useContext(appContext);
+  const router = useRouter();
   const [image, setImage] = useState(null);
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -36,13 +38,12 @@ const EditStore = () => {
   const imagePicker = async () => {
     let picked = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: 0.5,
       aspect: [1, 1],
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
 
     if (!picked.canceled) {
-      console.log(picked);
       setImage(picked.assets[0].uri);
     } else {
       console.log("No image selected");
@@ -50,21 +51,24 @@ const EditStore = () => {
   };
 
   const saveChanges = async (data) => {
-    const imgData = await fetch(image);
-    const blob = imgData.blob();
+    const blob = await uriToBlob(image);
     try {
-      // let imageUrl = "";
-      const imageRef = ref(
-        storage,
-        `ProfilePictures/${user.userUid}.${image.split(".")[1]}`
-      );
+      const imageRef = ref(storage, `ProfilePictures/${user.userUid}`);
 
-      await uploadBytes(imageRef, blob).then((res) => {
-        console.log("done: ", res);
+      await uploadBytes(imageRef, blob).then(async (snapshot) => {
+        console.log("snapshot", snapshot);
+        const imageUrl = await getDownloadURL(imageRef);
+        await axios.post(url + "/Users/update", {
+          ...data,
+          imageUrl,
+          userUid: user.userUid,
+        });
       });
-      // await axios.post(url + "/Users/update", { ...data, imageUrl });
+
+      setReflesh(reflesh + 1);
+      router.back();
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong, Try again.");
     }
   };
 
@@ -119,10 +123,11 @@ const EditStore = () => {
           <Controller
             name="shopName"
             control={control}
-            render={({ field: { onChange, value, onBlur } }) => (
+            render={({ field: { onChange, value, onBlur, ref } }) => (
               <TextInput
+                ref={ref}
                 value={value}
-                onChange={onChange}
+                onChangeText={onChange}
                 style={common.inputV3}
               />
             )}
@@ -137,7 +142,7 @@ const EditStore = () => {
             render={({ field: { onChange, value, onBlur } }) => (
               <TextInput
                 value={value}
-                onChange={onChange}
+                onChangeText={onChange}
                 style={common.inputV3}
               />
             )}
@@ -175,7 +180,7 @@ const EditStore = () => {
             render={({ field: { onChange, value, onBlur } }) => (
               <TextInput
                 value={value}
-                onChange={onChange}
+                onChangeText={onChange}
                 style={common.inputV3}
               />
             )}
