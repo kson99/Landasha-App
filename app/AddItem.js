@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Pressable,
+  Modal,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -27,7 +29,9 @@ const AddItem = () => {
   const { user, reflesh, setReflesh } = useContext(appContext);
   const router = useRouter();
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const categories = ["For Sale", "For Rent", "Closet"];
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       name: "",
@@ -59,11 +63,12 @@ const AddItem = () => {
   };
 
   const upload = async (data) => {
-    console.log(data);
     const itemId = uuid.v4();
+
     if (images.length === 0) {
       alert("Image required");
     } else {
+      setLoading(true);
       let _images = [];
 
       await Promise.all(
@@ -82,8 +87,6 @@ const AddItem = () => {
         })
       );
 
-      console.log("already");
-
       await axios.post(url + "/Items/upload", {
         ...data,
         itemId,
@@ -91,8 +94,8 @@ const AddItem = () => {
         images: JSON.stringify(_images),
       });
 
-      console.log("upload complete");
       setReflesh(reflesh + 1);
+      setLoading(false);
       router.back();
     }
   };
@@ -203,6 +206,8 @@ const AddItem = () => {
                 onChangeText={onChange}
                 value={value}
                 style={common.inputV2}
+                inputMode="numeric"
+                keyboardType="number-pad"
               />
             )}
           />
@@ -210,6 +215,18 @@ const AddItem = () => {
       </View>
 
       <View style={{ height: 60 }}></View>
+
+      {/* Loading screen */}
+      <Modal
+        visible={loading}
+        animationType="fade"
+        onRequestClose={() => setIsMenu(false)}
+        transparent
+      >
+        <View style={common.modalLoading}>
+          <ActivityIndicator color="white" size="large" />
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

@@ -37,9 +37,15 @@ const ProfileMenu = ({ close }) => {
         <Text style={common.modalMenuOptionText}>Add Item</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={common.modalMenuOption}>
+      <TouchableOpacity
+        style={common.modalMenuOption}
+        onPress={() => {
+          close(false);
+          router.push("/ManageItems");
+        }}
+      >
         <MaterialCommunityIcons name="archive-edit-outline" size={23} />
-        <Text style={common.modalMenuOptionText}>Customize Items</Text>
+        <Text style={common.modalMenuOptionText}>Manage Items</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={common.modalMenuOption} onPress={logout}>

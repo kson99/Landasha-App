@@ -14,7 +14,7 @@ const search = StyleSheet.create({
     backgroundColor: COLORS.background,
     width: "75%",
     height: 35,
-    borderRadius: 5,
+    borderRadius: 10,
   },
 
   searchInput: {

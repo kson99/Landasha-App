@@ -5,7 +5,7 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import { COLORS, locations } from "../constants";
@@ -21,7 +21,15 @@ const Register = () => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm({
+
+  const shopNameRef = useRef();
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const phoneNoRef = useRef();
+  const passwordRef = useRef();
+  const rePasswordRef = useRef();
+
+  const { control, handleSubmit, errors } = useForm({
     defaultValues: {
       shopName: "",
       username: "",
@@ -71,6 +79,8 @@ const Register = () => {
         alert("Email already registered");
       } else if (errString.includes("network-request-failed")) {
         alert("Network connection failed");
+      } else {
+        alert(errString);
       }
     }
   };
@@ -80,22 +90,29 @@ const Register = () => {
       <View style={common.form}>
         <Controller
           name="shopName"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          onFocus={() => shopNameRef.current.focus()}
+          render={(props) => (
             <TextInput
+              {...props}
+              ref={shopNameRef}
               placeholder="Shop Name"
               style={common.input}
-              onChangeText={onChange}
-              value={value}
+              onChangeText={(value) => props.onChange(value)}
             />
           )}
         />
 
         <Controller
           name="username"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          onFocus={() => usernameRef.current.focus()}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              ref={usernameRef}
+              onBlur={onBlur}
               placeholder="Username"
               style={common.input}
               onChangeText={onChange}
@@ -106,22 +123,30 @@ const Register = () => {
 
         <Controller
           name="email"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          onFocus={() => emailRef.current.focus()}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              ref={emailRef}
+              onBlur={onBlur}
               placeholder="Email Address"
               style={common.input}
               onChangeText={onChange}
               value={value}
+              inputMode="email"
+              keyboardType="email-address"
             />
           )}
         />
 
         <Controller
           name="location"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <Picker
+              onBlur={onBlur}
               style={common.input}
               selectedValue={value}
               onValueChange={onChange}
@@ -139,25 +164,36 @@ const Register = () => {
 
         <Controller
           name="phoneNo"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          onFocus={() => phoneNoRef.current.focus()}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              ref={phoneNoRef}
+              onBlur={onBlur}
               placeholder="Phone Number"
               style={common.input}
               onChangeText={onChange}
               value={value}
+              inputMode="numeric"
+              keyboardType="number-pad"
             />
           )}
         />
 
         <Controller
           name="password"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          onFocus={() => passwordRef.current.focus()}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              ref={passwordRef}
+              onBlur={onBlur}
               placeholder="Password"
               style={common.input}
               onChangeText={onChange}
+              autoCapitalize="none"
               value={value}
               secureTextEntry
             />
@@ -166,12 +202,18 @@ const Register = () => {
 
         <Controller
           name="rePassword"
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          onFocus={() => rePasswordRef.current.focus()}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              ref={rePasswordRef}
+              onFocus={() => {}}
+              onBlur={onBlur}
               placeholder="Re-enter Password"
               style={common.input}
               onChangeText={onChange}
+              autoCapitalize="none"
               value={value}
               secureTextEntry
             />

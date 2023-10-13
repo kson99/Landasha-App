@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { HeaderBtn, ResultItemCard } from "../components";
+import { HeaderBtn, PlatformSafeAreaView, ResultItemCard } from "../components";
 import { COLORS } from "../constants";
 import { useRouter } from "expo-router";
 import { common, search } from "../styles";
@@ -41,7 +41,7 @@ const Search = () => {
   };
 
   return (
-    <SafeAreaView style={common.safeArea}>
+    <PlatformSafeAreaView>
       <View style={search.appBar}>
         <HeaderBtn
           name="chevron-back"
@@ -79,7 +79,7 @@ const Search = () => {
           />
         </ScrollView>
       )}
-    </SafeAreaView>
+    </PlatformSafeAreaView>
   );
 };
 

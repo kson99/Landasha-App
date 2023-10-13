@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
+  Modal,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -26,6 +28,7 @@ const EditStore = () => {
   const { user, reflesh, setReflesh } = useContext(appContext);
   const router = useRouter();
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm({
     defaultValues: {
       shopName: user.shopName,
@@ -51,12 +54,13 @@ const EditStore = () => {
   };
 
   const saveChanges = async (data) => {
+    setLoading(true);
     const blob = await uriToBlob(image);
+
     try {
       const imageRef = ref(storage, `ProfilePictures/${user.userUid}`);
 
       await uploadBytes(imageRef, blob).then(async (snapshot) => {
-        console.log("snapshot", snapshot);
         const imageUrl = await getDownloadURL(imageRef);
         await axios.post(url + "/Users/update", {
           ...data,
@@ -66,8 +70,10 @@ const EditStore = () => {
       });
 
       setReflesh(reflesh + 1);
+      setLoading(false);
       router.back();
     } catch (error) {
+      setLoading(false);
       alert("Something went wrong, Try again.");
     }
   };
@@ -182,11 +188,25 @@ const EditStore = () => {
                 value={value}
                 onChangeText={onChange}
                 style={common.inputV3}
+                inputMode="numeric"
+                keyboardType="number-pad"
               />
             )}
           />
         </View>
       </View>
+
+      {/* Loading screen */}
+      <Modal
+        visible={loading}
+        animationType="fade"
+        onRequestClose={() => setIsMenu(false)}
+        transparent
+      >
+        <View style={common.modalLoading}>
+          <ActivityIndicator color="white" size="large" />
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

@@ -51,6 +51,15 @@ function Layout() {
             headerBackTitleVisible: false,
           }}
         />
+
+        <Stack.Screen
+          name="ManageItems"
+          options={{
+            title: "Manage Items",
+            headerTitleAlign: "center",
+            headerBackTitleVisible: false,
+          }}
+        />
       </Stack>
     </Context>
   );

@@ -33,7 +33,13 @@ const Login = () => {
         router.push("/Account");
       }
     } catch (error) {
-      alert(error.message);
+      if (error.message.includes("wrong-password")) {
+        alert("Wrong Login credentials! Please try again.");
+      } else if (error.message.includes("network-request-failed")) {
+        alert("Network error!");
+      } else if (error.message.includes("too-many-requests")) {
+        alert(error.message.split(": ")[1]);
+      }
     }
 
     setLoading(false);
@@ -47,10 +53,13 @@ const Login = () => {
           control={control}
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <TextInput
+              autoCapitalize="none"
               placeholder="Email Address"
               style={common.input}
               onChangeText={onChange}
               value={value}
+              inputMode="email"
+              keyboardType="email-address"
             />
           )}
         />
@@ -60,6 +69,7 @@ const Login = () => {
           control={control}
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <TextInput
+              autoCapitalize="none"
               placeholder="Password"
               style={common.input}
               onChangeText={onChange}

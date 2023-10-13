@@ -8,38 +8,39 @@ import { timeAgo } from "../../../util";
 import { useRouter } from "expo-router";
 
 const ItemCard = ({ item }) => {
-	const router = useRouter();
-	const images = item ? JSON.parse(item.images) : [];
+  const router = useRouter();
+  const images = item ? JSON.parse(item.images) : [];
 
-	return (
-		<TouchableOpacity
-			style={styles.container}
-			onPress={() => {
-				router.push(`/item-view/${item.id}`);
-			}}>
-			<Image
-				source={{ uri: images[0] }}
-				resizeMode="cover"
-				style={styles.image}
-			/>
+  return (
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        router.push(`/item-view/${item.id}`);
+      }}
+    >
+      <Image
+        source={{ uri: images[0] }}
+        resizeMode="contain"
+        style={styles.image}
+      />
 
-			<View style={styles.details}>
-				<Text style={styles.nameText} numberOfLines={1}>
-					{item?.name}
-				</Text>
+      <View style={styles.details}>
+        <Text style={styles.nameText} numberOfLines={1}>
+          {item?.name}
+        </Text>
 
-				<Text style={styles.priceText}>
-					N${" "}
-					{Number(item?.price).toLocaleString(undefined, {
-						minimumFractionDigits: 2,
-						maximumFractionDigits: 2,
-					})}
-				</Text>
+        <Text style={styles.priceText}>
+          N${" "}
+          {Number(item?.price).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </Text>
 
-				<Text style={styles.timestamp}>{timeAgo(item?.timestamp)}</Text>
-			</View>
-		</TouchableOpacity>
-	);
+        <Text style={styles.timestamp}>{timeAgo(item?.timestamp)}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 };
 
 export default ItemCard;

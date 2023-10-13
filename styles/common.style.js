@@ -1,5 +1,5 @@
 import { StatusBar, StyleSheet } from "react-native";
-import { COLORS } from "../constants";
+import { COLORS, SIZES } from "../constants";
 
 const common = StyleSheet.create({
   safeArea: {
@@ -41,7 +41,7 @@ const common = StyleSheet.create({
   },
 
   input: {
-    minWidth: "60%",
+    minWidth: "80%",
     backgroundColor: COLORS.background,
     padding: 10,
     borderRadius: 5,
@@ -102,9 +102,16 @@ const common = StyleSheet.create({
   },
 
   modalCont: {
-    backgroundColor: "rgba(0,0,0,0.4)",
     flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
     flexDirection: "column",
+  },
+
+  modalLoading: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignContent: "center",
   },
 
   modalClose: {
@@ -132,6 +139,13 @@ const common = StyleSheet.create({
   modalMenuOptionText: {
     fontSize: 18,
     textTransform: "capitalize",
+  },
+
+  myItems: {
+    marginTop: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+    minHeight: 200,
+    justifyContent: "center",
   },
 });
 

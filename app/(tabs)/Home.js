@@ -6,6 +6,7 @@ import {
   Closets,
   ForSale,
   Items,
+  PlatformSafeAreaView,
   Recents,
   Rentals,
   SearchBtn,
@@ -13,7 +14,7 @@ import {
 
 const Home = () => {
   return (
-    <SafeAreaView style={common.safeArea}>
+    <PlatformSafeAreaView>
       <View style={home.container}>
         <SearchBtn />
         <Categories />
@@ -31,7 +32,7 @@ const Home = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </PlatformSafeAreaView>
   );
 };
 

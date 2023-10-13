@@ -10,14 +10,14 @@ import logo from "../../assets/logo.png";
 import { account, common } from "../../styles";
 import { useRouter } from "expo-router";
 import { appContext } from "../../grobal/context";
-import { Profile } from "../../components";
+import { PlatformSafeAreaView, Profile } from "../../components";
 
 const Account = () => {
   const { loggedIn, profileOptionMenu } = useContext(appContext);
   const router = useRouter();
 
   return (
-    <SafeAreaView style={common.safeArea}>
+    <PlatformSafeAreaView>
       {loggedIn ? (
         <View>
           <Profile />
@@ -49,7 +49,7 @@ const Account = () => {
           </View>
         </View>
       )}
-    </SafeAreaView>
+    </PlatformSafeAreaView>
   );
 };
 
