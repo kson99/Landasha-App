@@ -1,43 +1,46 @@
 import {
   View,
   Text,
-  Image,
-  TouchableOpacity,
   ScrollView,
-  Pressable,
+  TextInput,
   Modal,
   ActivityIndicator,
+  Pressable,
+  Image,
 } from "react-native";
-import React, { useState, useContext } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { TextInput } from "react-native-gesture-handler";
-import { addItem, common } from "../styles";
-import { Picker } from "@react-native-picker/picker";
-import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../constants";
+import React, { useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { uriToBlob } from "../util";
-import { storage } from "../database/firebase.service";
+import { appContext, url } from "../../grobal/context";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { appContext, url } from "../grobal/context";
-import uuid from "react-native-uuid";
-import { Stack, useRouter } from "expo-router";
 import axios from "axios";
-import { HeaderBtn } from "../components";
+import { HeaderBtn } from "../../components";
+import { addItem, common } from "../../styles";
+import { Ionicons } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
+import { COLORS } from "../../constants";
+import { storage } from "../../database/firebase.service";
+import { uriToBlob } from "../../util";
 
-const AddItem = () => {
-  const { user, reflesh, setReflesh } = useContext(appContext);
+const EditItem = () => {
+  const { items, user, reflesh, setReflesh } = useContext(appContext);
   const router = useRouter();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const categories = ["For Sale", "For Rent", "Closet"];
+  const { _id } = useLocalSearchParams();
+
+  const _item = items?.find(({ id }) => {
+    return `${id}` === _id;
+  });
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      name: "",
-      category: categories[0],
-      description: "",
-      price: "",
+      name: _item?.name,
+      category: _item?.category,
+      description: _item?.description,
+      price: `${_item?.price}`,
     },
   });
 
@@ -60,50 +63,60 @@ const AddItem = () => {
     setImages((prev) => prev.filter((img, i) => i !== index));
   };
 
-  const upload = async (data) => {
-    const itemId = uuid.v4();
-
+  const update = async (data) => {
     if (images.length === 0) {
       alert("Image required");
     } else {
       setLoading(true);
       let _images = [];
-
       await Promise.all(
         images.map(async (img, i) => {
-          const blob = await uriToBlob(img);
+          if (img.includes("https")) {
+            _images.push(img);
+          } else {
+            const blob = await uriToBlob(img);
 
-          try {
-            const imageRef = ref(storage, `ItemPictures/${itemId}/${i}`);
-            await uploadBytes(imageRef, blob).then(async (snapshot) => {
-              const imgUrl = await getDownloadURL(imageRef);
-              _images.push(imgUrl);
-            });
-          } catch (error) {
-            console.log(error);
+            try {
+              const imageRef = ref(
+                storage,
+                `ItemPictures/${_item.itemId}/${i}`
+              );
+              await uploadBytes(imageRef, blob).then(async (snapshot) => {
+                const imgUrl = await getDownloadURL(imageRef);
+                _images.push(imgUrl);
+              });
+            } catch (error) {
+              console.log(error);
+            }
           }
         })
       );
-
-      await axios.post(url + "/Items/upload", {
+      await axios.post(url + "/Items/update", {
         ...data,
-        itemId,
-        owner: user.userUid,
+        itemId: _item.itemId,
+        owner: items.owner,
         images: JSON.stringify(_images),
       });
-
       setReflesh(reflesh + 1);
       setLoading(false);
       router.back();
     }
   };
 
+  useEffect(() => {
+    let _images = _item ? eval(_item.images) : [];
+    setImages(_images);
+  }, [_item]);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={addItem.page}>
       <Stack.Screen
         options={{
+          title: "Edit Item",
+          headerTitleAlign: "center",
+          headerBackTitleVisible: false,
           headerRight: () => (
-            <HeaderBtn name="checkmark" handlePress={handleSubmit(upload)} />
+            <HeaderBtn name="checkmark" handlePress={handleSubmit(update)} />
           ),
         }}
       />
@@ -229,4 +242,4 @@ const AddItem = () => {
   );
 };
 
-export default AddItem;
+export default EditItem;

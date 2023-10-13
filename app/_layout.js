@@ -18,6 +18,8 @@ function Layout() {
 
         <Stack.Screen name="item-view/[_id]" options={{ headerShown: false }} />
 
+        <Stack.Screen name="edit-item/[_id]" />
+
         <Stack.Screen
           name="Login"
           options={{
@@ -55,7 +57,7 @@ function Layout() {
         <Stack.Screen
           name="ManageItems"
           options={{
-            title: "Manage Items",
+            title: "Manage My Items",
             headerTitleAlign: "center",
             headerBackTitleVisible: false,
           }}

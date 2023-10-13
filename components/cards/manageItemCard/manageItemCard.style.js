@@ -20,8 +20,7 @@ const styles = StyleSheet.create({
   },
 
   details: {
-    paddingHorizontal: 5,
-    paddingVertical: 10,
+    padding: 5,
     alignItems: "center",
   },
 
@@ -55,15 +54,72 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    borderRadius: 5,
   },
 
   crudBtn: {
     flexDirection: "column",
     alignItems: "center",
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
   },
 
   crudBtnText: {
     fontSize: SIZES.xSmall,
+  },
+
+  confirmText: {
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center",
+    marginTop: -10,
+    paddingBottom: 10,
+  },
+
+  itemBox: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+    borderTopWidth: 1,
+    borderTopColor: "black",
+  },
+
+  itemBoxImg: {
+    width: 100,
+    height: 100,
+  },
+
+  itemDetailsBox: {
+    flex: 1,
+    flexDirection: "column",
+    gap: 5,
+  },
+
+  itemBoxName: {
+    color: COLORS.primary,
+    fontWeight: "bold",
+  },
+
+  confirmBtns: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingBottom: 10,
+  },
+
+  confirmBtn: (dlt) => ({
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: dlt ? "red" : COLORS.grey,
+    borderRadius: 10,
+  }),
+
+  btnText: {
+    color: COLORS.white,
+    fontWeight: "600",
   },
 });
 

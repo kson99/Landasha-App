@@ -45,7 +45,7 @@ const ProfileMenu = ({ close }) => {
         }}
       >
         <MaterialCommunityIcons name="archive-edit-outline" size={23} />
-        <Text style={common.modalMenuOptionText}>Manage Items</Text>
+        <Text style={common.modalMenuOptionText}>Manage My Items</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={common.modalMenuOption} onPress={logout}>

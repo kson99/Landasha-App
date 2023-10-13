@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Dimensions } from "react-native";
+import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
 import React, { useContext } from "react";
 import { appContext } from "../grobal/context";
 import { common } from "../styles";
@@ -24,10 +24,10 @@ const ManageItems = () => {
   };
 
   return (
-    <View>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <Stack.Screen
         options={{
-          headerRight: () => <Text>{myItems().length}</Text>,
+          headerRight: () => <Text>({myItems().length})</Text>,
         }}
       />
       <View style={common.scrollView}>
@@ -40,10 +40,12 @@ const ManageItems = () => {
               numColumns={columnNum}
               scrollEnabled={false}
             />
+
+            <View style={{ height: 20 }} />
           </View>
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
