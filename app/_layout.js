@@ -11,7 +11,6 @@ function Layout() {
         <Stack.Screen
           name="store/[_userUid]"
           options={{
-            title: "",
             headerShadowVisible: false,
           }}
         />

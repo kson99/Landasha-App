@@ -9,7 +9,8 @@
       "expo-router"
     ],
     "name": "Landasha",
-    "slug": "Landasha",
+    "slug": "landasha",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -25,7 +26,23 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.kson_d.landasha"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/123155b4-6ad5-4d23-abb3-529ecc0d1b75"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "123155b4-6ad5-4d23-abb3-529ecc0d1b75"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

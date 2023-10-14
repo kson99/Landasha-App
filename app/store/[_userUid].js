@@ -24,7 +24,11 @@ const Store = () => {
   const user = users.find(({ userUid }) => userUid === _userUid);
 
   const myItems = () => {
-    let _items = items.filter(({ owner }) => owner === user.userUid);
+    let _items;
+    if (user) {
+      _items = items.filter(({ owner }) => owner === user.userUid);
+    }
+
     return _items;
   };
 
@@ -34,7 +38,6 @@ const Store = () => {
         options={{
           title: user.shopName,
           headerTitleAlign: "center",
-          headerTitleStyle: { color: COLORS.primary, fontWeight: 800 },
         }}
       />
 
@@ -42,7 +45,7 @@ const Store = () => {
         <View>
           {user?.imageUrl ? (
             <Image
-              source={{ uri: user.imageUrl }}
+              source={{ uri: user?.imageUrl }}
               resizeMode="cover"
               style={store.image}
             />
@@ -58,8 +61,6 @@ const Store = () => {
         </View>
 
         <View>
-          {/* <Text style={store.shopName}>{user?.shopName}</Text> */}
-
           <View style={store.locationCont}>
             <Ionicons name="location" color={COLORS.grey} />
             <Text style={store.location}>{user?.location}</Text>
@@ -88,6 +89,7 @@ const Store = () => {
             />
           </View>
         )}
+
         <View style={{ height: 100 }}></View>
       </View>
     </ScrollView>
