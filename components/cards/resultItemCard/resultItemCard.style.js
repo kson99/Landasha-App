@@ -7,16 +7,19 @@ const styles = StyleSheet.create({
     height: 130,
     flexDirection: "row",
     gap: 10,
+    paddingHorizontal: 5,
   },
 
   image: {
     flex: 0.35,
     paddingVertical: SIZES.xxSmall,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   img: {
-    width: "100%",
-    height: "100%",
+    width: "90%",
+    height: "90%",
   },
 
   details: {

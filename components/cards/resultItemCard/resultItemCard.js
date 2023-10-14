@@ -17,7 +17,7 @@ const ResultItemCard = ({ item }) => {
       <View style={styles.image}>
         <Image
           source={{ uri: images[0] }}
-          resizeMode="cover"
+          resizeMode="contain"
           style={styles.img}
         />
       </View>
