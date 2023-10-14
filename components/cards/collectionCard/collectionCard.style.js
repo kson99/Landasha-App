@@ -4,20 +4,23 @@ import { COLORS, SIZES } from "../../../constants";
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    height: 130,
+    height: 120,
     flexDirection: "row",
-    gap: 10,
+    gap: 15,
     backgroundColor: COLORS.white,
+    paddingHorizontal: 10,
   },
 
   image: {
     flex: 0.35,
     paddingVertical: SIZES.xxSmall,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   img: {
-    width: "100%",
-    height: "100%",
+    width: "80%",
+    height: "80%",
   },
 
   details: {
@@ -25,13 +28,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     paddingVertical: SIZES.xxSmall,
-    borderBottomColor: COLORS.background,
-    borderBottomWidth: 1,
+    // borderBottomColor: COLORS.background,
+    // borderBottomWidth: 1,
     paddingRight: SIZES.xxSmall,
   },
 
   name: {
-    fontSize: 18,
+    fontSize: 16,
     color: COLORS.primary,
     fontWeight: "500",
   },
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
   price: {
     color: "red",
     fontWeight: "bold",
-    fontSize: SIZES.large,
+    fontSize: 20,
     paddingBottom: 5,
   },
 });

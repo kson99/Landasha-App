@@ -30,6 +30,7 @@ const Collection = () => {
         style={style.list}
         data={collectionItems()}
         renderItem={({ item }) => <CollectionCard item={item} />}
+        contentContainerStyle={{ gap: 2 }}
       />
     </View>
   );

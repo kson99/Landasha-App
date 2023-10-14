@@ -8,6 +8,7 @@ import {
   Dimensions,
   ActivityIndicator,
   Alert,
+  Share,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { common, itemView } from "../../styles";
@@ -22,7 +23,7 @@ import { addToCollection, removeItem } from "../../database/sqlite.service";
 const width = Dimensions.get("window").width;
 
 const ItemView = () => {
-  const { items, isLoading, error, collection, reflesh, setReflesh } =
+  const { items, isLoading, error, collection, dbReflesh, setDbReflesh } =
     useContext(appContext);
   const router = useRouter();
   const { _id } = useLocalSearchParams();
@@ -32,7 +33,6 @@ const ItemView = () => {
   });
 
   const images = _item ? JSON.parse(_item.images) : [];
-  // const [activeTab, setActiveTab] = useState(images[0]);
   const [active, setActive] = useState(1);
   const columnNum = Math.floor(width / 180);
 
@@ -46,6 +46,7 @@ const ItemView = () => {
     }
   };
 
+  // getting other shop items
   const otherItems = () => {
     let array = [];
 
@@ -68,21 +69,33 @@ const ItemView = () => {
     return is;
   };
 
+  // Adding or removing from collection
   const addOrRemove = async () => {
     if (isInCollection()) {
       try {
         await removeItem(_item.itemId);
-        setReflesh(reflesh + 1);
+        setDbReflesh(dbReflesh + 1);
       } catch (error) {
         Alert("Failed, try again");
       }
     } else {
       try {
         await addToCollection(_item.itemId);
-        setReflesh(reflesh + 1);
+        setDbReflesh(dbReflesh + 1);
       } catch (error) {
         Alert("Failed, try again");
       }
+    }
+  };
+
+  // Share button implementation
+  const shareClick = async () => {
+    try {
+      await Share.share({
+        message: _item.name,
+      });
+    } catch (error) {
+      Alert.alert(error.message);
     }
   };
 
@@ -129,27 +142,11 @@ const ItemView = () => {
               <HeaderBtn
                 name="share-social"
                 color={COLORS.white}
+                handlePress={shareClick}
                 bgColor={"rgba(0,0,0,0.4)"}
               />
             </View>
           </View>
-
-          {/* <View style={itemView.imagesNav}>
-						{images.map((img, _i) => (
-							<TouchableOpacity
-								key={_i}
-								style={itemView.navTab(activeTab, img)}
-								onPress={() => {
-									setActiveTab(img);
-								}}>
-								<Image
-									style={itemView.navTabImg}
-									source={{ uri: img }}
-									resizeMode="contain"
-								/>
-							</TouchableOpacity>
-						))}
-					</View> */}
 
           <View style={itemView.priceBox}>
             <Text style={itemView.price}>

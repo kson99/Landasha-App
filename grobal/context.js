@@ -16,6 +16,7 @@ const Context = ({ children }) => {
   const [error, setError] = useState(false);
   const [collection, setCollection] = useState([]);
   const [reflesh, setReflesh] = useState(0);
+  const [dbReflesh, setDbReflesh] = useState(0);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -63,8 +64,11 @@ const Context = ({ children }) => {
 
   useEffect(() => {
     getData();
-    getCollectionItems();
   }, [reflesh]);
+
+  useEffect(() => {
+    getCollectionItems();
+  }, [dbReflesh]);
 
   return (
     <appContext.Provider
@@ -74,7 +78,9 @@ const Context = ({ children }) => {
         error,
         collection,
         reflesh,
+        dbReflesh,
         setReflesh,
+        setDbReflesh,
         users,
         user,
         loggedIn,
