@@ -7,6 +7,7 @@ import styles from "./items.style";
 import { COLORS } from "../../constants";
 import { useContext } from "react";
 import { appContext } from "../../grobal/context";
+import { Ionicons } from "@expo/vector-icons";
 
 const width = Dimensions.get("window").width;
 
@@ -23,7 +24,9 @@ const Items = () => {
       {isLoading ? (
         <ActivityIndicator size={"large"} color={COLORS.primary} />
       ) : error ? (
-        <Text>Something went wrong</Text>
+        <View style={styles.networkError}>
+          <Ionicons name="alert-circle-outline" size={30} color="red" />
+        </View>
       ) : (
         <FlatList
           data={dataShuffle(items)}

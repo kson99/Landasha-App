@@ -10,6 +10,7 @@ import ItemRecentCard from "../cards/itemRecentCard/itemRecentCard";
 import { COLORS } from "../../constants";
 import { useContext } from "react";
 import { appContext } from "../../grobal/context";
+import { Ionicons } from "@expo/vector-icons";
 
 const Recents = () => {
   const { items, isLoading, error } = useContext(appContext);
@@ -27,7 +28,9 @@ const Recents = () => {
         {isLoading ? (
           <ActivityIndicator size={"large"} color={COLORS.primary} />
         ) : error ? (
-          <Text>Something went wrong</Text>
+          <View style={styles.networkError}>
+            <Ionicons name="alert-circle-outline" size={30} color="red" />
+          </View>
         ) : (
           <FlatList
             data={items.slice(0, 10)}

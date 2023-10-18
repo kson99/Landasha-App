@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import React, { useContext, useLocation } from "react";
 import logo from "../../assets/logo.png";
@@ -11,14 +12,21 @@ import { account, common } from "../../styles";
 import { useRouter } from "expo-router";
 import { appContext } from "../../grobal/context";
 import { PlatformSafeAreaView, Profile } from "../../components";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../../constants";
 
 const Account = () => {
-  const { loggedIn, profileOptionMenu } = useContext(appContext);
+  const { loggedIn, profileOptionMenu, error } = useContext(appContext);
   const router = useRouter();
 
   return (
     <PlatformSafeAreaView>
-      {loggedIn ? (
+      {error ? (
+        <View style={styles.container}>
+          <Ionicons name="wifi" size={60} color="red" />
+          <Text style={styles.text}>Network Error !</Text>
+        </View>
+      ) : loggedIn ? (
         <View>
           <Profile />
         </View>
@@ -54,3 +62,20 @@ const Account = () => {
 };
 
 export default Account;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.6,
+  },
+
+  text: {
+    color: "red",
+    fontWeight: "800",
+    paddingTop: 5,
+    letterSpacing: 1.5,
+    opacity: 0.8,
+  },
+});

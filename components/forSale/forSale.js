@@ -7,6 +7,7 @@ import { ActivityIndicator } from "react-native";
 import CatCard from "../cards/catCard/catCard";
 import { useContext } from "react";
 import { appContext } from "../../grobal/context";
+import { Ionicons } from "@expo/vector-icons";
 
 const ForSale = () => {
   const { items, isLoading, error } = useContext(appContext);
@@ -29,7 +30,7 @@ const ForSale = () => {
         {isLoading ? (
           <ActivityIndicator size={"large"} color={COLORS.primary} />
         ) : error ? (
-          <Text>Something went wrong</Text>
+          <Ionicons name="alert-circle-outline" size={30} color="red" />
         ) : (
           <CatCard item={randomItem(items)} />
         )}

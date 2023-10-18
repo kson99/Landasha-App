@@ -66,7 +66,10 @@ const Search = () => {
       </View>
 
       {isSearch && (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={common.scrollView}
+        >
           {/* <Text>results for: {searchTxt}</Text> */}
 
           <FlatList

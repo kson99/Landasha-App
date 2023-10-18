@@ -36,7 +36,7 @@ const Store = () => {
     <ScrollView style={common.scrollView} showsVerticalScrollIndicator={false}>
       <Stack.Screen
         options={{
-          title: user.shopName,
+          title: user?.shopName,
           headerTitleAlign: "center",
         }}
       />

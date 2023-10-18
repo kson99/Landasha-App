@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     paddingHorizontal: 5,
+    backgroundColor: COLORS.white,
   },
 
   image: {

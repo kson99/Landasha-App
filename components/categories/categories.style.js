@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   tabsContainer: {
     width: "100%",
     borderBottomColor: COLORS.lightGrey,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.3,
     backgroundColor: COLORS.white,
   },
   tab: (activeTab, item) => ({

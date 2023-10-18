@@ -12,7 +12,7 @@ const home = StyleSheet.create({
   },
 
   rentClosetContainer: {
-    backgroundColor: COLORS.lightWhite,
+    backgroundColor: COLORS.white,
     flexDirection: "row",
     marginTop: SIZES.xxSmall,
     paddingVertical: 20,
