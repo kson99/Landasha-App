@@ -42,7 +42,7 @@ const common = StyleSheet.create({
 
   input: {
     minWidth: "80%",
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.backgroundB,
     padding: 10,
     borderRadius: 5,
   },
