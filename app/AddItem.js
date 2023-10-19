@@ -19,7 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import { uriToBlob } from "../util";
 import { storage } from "../database/firebase.service";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { appContext, url } from "../grobal/context";
+import { appContext, subCategories, url } from "../grobal/context";
 import uuid from "react-native-uuid";
 import { Stack, useRouter } from "expo-router";
 import axios from "axios";
@@ -36,6 +36,7 @@ const AddItem = () => {
     defaultValues: {
       name: "",
       category: categories[0],
+      subCategory: subCategories[0],
       description: "",
       price: "",
     },
@@ -136,6 +137,25 @@ const AddItem = () => {
                 onValueChange={onChange}
               >
                 {categories.map((cat) => (
+                  <Picker.Item key={cat} label={cat} value={cat} />
+                ))}
+              </Picker>
+            )}
+          />
+        </View>
+
+        <View>
+          <Text style={common.inputLabel}>Sub Category</Text>
+          <Controller
+            name="subCategory"
+            control={control}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Picker
+                style={common.inputV2}
+                selectedValue={value}
+                onValueChange={onChange}
+              >
+                {subCategories.map((cat) => (
                   <Picker.Item key={cat} label={cat} value={cat} />
                 ))}
               </Picker>

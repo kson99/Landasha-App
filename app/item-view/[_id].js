@@ -109,6 +109,7 @@ const ItemView = () => {
           <View style={itemView.imageBox}>
             <ScrollView
               onScroll={({ nativeEvent }) => imageScroll(nativeEvent)}
+              scrollEventThrottle={0}
               showsHorizontalScrollIndicator={false}
               pagingEnabled
               horizontal

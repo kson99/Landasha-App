@@ -5,28 +5,15 @@ import { View } from "react-native";
 import styles from "./categories.style";
 import { Text } from "react-native";
 import { useState } from "react";
-
-const categories = [
-  "Recent",
-  "Accessories",
-  "Clothing",
-  "Home",
-  "Housing",
-  "Computers",
-  "Phones",
-  "Gaming",
-  "Electronics",
-  "Vehicles",
-  "Others",
-];
+import { subCategories } from "../../grobal/context";
 
 const Categories = () => {
-  const [activeTab, setactiveTab] = useState(categories[0]);
+  const [activeTab, setactiveTab] = useState("Home");
 
   return (
     <View style={styles.tabsContainer}>
       <FlatList
-        data={categories}
+        data={["Home", ...subCategories]}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.tab(activeTab, item)}

@@ -6,6 +6,17 @@ import { auth } from "../database/firebase.service";
 
 export const appContext = createContext();
 export const url = "https://perfect-cuff-links-lamb.cyclic.cloud/landasha/";
+export const subCategories = [
+  "Accessories",
+  "Clothing",
+  "Housing",
+  "Computers",
+  "Phones",
+  "Gaming",
+  "Electronics",
+  "Vehicles",
+  "Others",
+];
 
 const Context = ({ children }) => {
   const [items, setItems] = useState([]);

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { appContext, url } from "../../grobal/context";
+import { appContext, subCategories, url } from "../../grobal/context";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -39,6 +39,7 @@ const EditItem = () => {
     defaultValues: {
       name: _item?.name,
       category: _item?.category,
+      subCategory: _item?.subCategory,
       description: _item?.description,
       price: `${_item?.price}`,
     },
@@ -149,6 +150,25 @@ const EditItem = () => {
                 onValueChange={onChange}
               >
                 {categories.map((cat) => (
+                  <Picker.Item key={cat} label={cat} value={cat} />
+                ))}
+              </Picker>
+            )}
+          />
+        </View>
+
+        <View>
+          <Text style={common.inputLabel}>Sub Category</Text>
+          <Controller
+            name="subCategory"
+            control={control}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Picker
+                style={common.inputV2}
+                selectedValue={value}
+                onValueChange={onChange}
+              >
+                {subCategories.map((cat) => (
                   <Picker.Item key={cat} label={cat} value={cat} />
                 ))}
               </Picker>
