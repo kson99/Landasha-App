@@ -24,6 +24,16 @@ function Layout() {
           options={{
             headerTitleAlign: "center",
             headerBackTitleVisible: false,
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="Group"
+          options={{
+            headerTitleAlign: "center",
+            headerBackTitleVisible: false,
+            // headerShadowVisible: false,
           }}
         />
 
@@ -32,6 +42,7 @@ function Layout() {
           options={{
             headerTitleAlign: "center",
             headerBackTitleVisible: false,
+            headerShadowVisible: false,
           }}
         />
 

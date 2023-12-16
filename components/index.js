@@ -13,6 +13,7 @@ import StoreCard from "./cards/storeCard/storeCard";
 import Profile from "./profile/profile";
 import PlatformSafeAreaView from "./safeAreaView";
 import ManageItemCard from "./cards/manageItemCard/manageItemCard";
+import Input from "./input/input";
 
 export {
   SearchBtn,
@@ -30,4 +31,5 @@ export {
   Profile,
   PlatformSafeAreaView,
   ManageItemCard,
+  Input,
 };

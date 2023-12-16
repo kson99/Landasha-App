@@ -3,9 +3,11 @@ import { createTable, getCollection } from "../database/sqlite.service";
 import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../database/firebase.service";
+import { Dimensions } from "react-native";
 
 export const appContext = createContext();
 export const url = "https://perfect-cuff-links-lamb.cyclic.cloud/landasha/";
+export const { width, height } = Dimensions.get("window");
 export const subCategories = [
   "Accessories",
   "Clothing",

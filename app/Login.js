@@ -1,29 +1,21 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Controller, useForm } from "react-hook-form";
 import { common } from "../styles";
 import { auth } from "../database/firebase.service";
 import { useRouter } from "expo-router";
 import { COLORS } from "../constants";
+import { Input } from "../components";
 
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+  const [data, setData] = useState({
+    email: "",
+    password: "",
   });
 
-  const login = async (data) => {
+  const login = async () => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
@@ -45,41 +37,31 @@ const Login = () => {
     setLoading(false);
   };
 
+  const ontextChange = (name, value) => {
+    setData({ ...data, [name]: value });
+  };
+
   return (
-    <View style={common.page}>
+    <View style={[common.page, { backgroundColor: "white" }]}>
       <View style={common.form}>
-        <Controller
-          name="email"
-          control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <TextInput
-              autoCapitalize="none"
-              placeholder="Email Address"
-              style={common.input}
-              onChangeText={onChange}
-              value={value}
-              inputMode="email"
-              keyboardType="email-address"
-            />
-          )}
+        <Input
+          autoCapitalize="none"
+          placeholder="Email Address"
+          inputMode="email"
+          value={data.email}
+          keyboardType="email-address"
+          onChangeText={(e) => ontextChange("email", e)}
         />
 
-        <Controller
-          name="password"
-          control={control}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <TextInput
-              autoCapitalize="none"
-              placeholder="Password"
-              style={common.input}
-              onChangeText={onChange}
-              value={value}
-              secureTextEntry
-            />
-          )}
+        <Input
+          autoCapitalize="none"
+          placeholder="Password"
+          onChangeText={(e) => ontextChange("password", e)}
+          value={data.password}
+          secureTextEntry
         />
 
-        <TouchableOpacity style={common.btn} onPress={handleSubmit(login)}>
+        <TouchableOpacity style={common.btn} onPress={login}>
           {loading ? (
             <ActivityIndicator color={COLORS.white} size="small" />
           ) : (

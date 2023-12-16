@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
     borderBottomColor: activeTab === item ? "red" : "",
   }),
 
+  scrollTab: (scrollIndex, index) => ({
+    color: scrollIndex != index ? COLORS.primary : "black",
+  }),
+
   tabText: (activeTab, item) => ({
     fontSize: SIZES.medium,
     color: activeTab === item ? "red" : COLORS.primary,

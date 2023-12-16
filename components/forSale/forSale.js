@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "react-native";
 import { COLORS, SIZES } from "../../constants";
 import useFetch from "../../hooks/useFetch";

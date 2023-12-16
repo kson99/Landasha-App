@@ -40,6 +40,13 @@ const common = StyleSheet.create({
     gap: 20,
   },
 
+  outline: {
+    borderWidth: 1,
+    borderColor: COLORS.lightGrey,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+
   input: {
     minWidth: "80%",
     backgroundColor: COLORS.backgroundB,
@@ -90,6 +97,7 @@ const common = StyleSheet.create({
   },
 
   btn: {
+    marginTop: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
     backgroundColor: "cornflowerblue",

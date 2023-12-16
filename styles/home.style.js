@@ -1,5 +1,6 @@
-import { StatusBar, StyleSheet } from "react-native";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import { COLORS, SIZES } from "../constants";
+const { width, height } = Dimensions.get("window");
 
 const home = StyleSheet.create({
   container: {
@@ -9,6 +10,8 @@ const home = StyleSheet.create({
 
   scrollContainer: {
     flex: 1,
+    width,
+    minHeight: height,
   },
 
   rentClosetContainer: {
