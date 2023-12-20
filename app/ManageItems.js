@@ -1,9 +1,17 @@
-import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import React, { useContext } from "react";
 import { appContext } from "../grobal/context";
 import { common } from "../styles";
 import { ManageItemCard } from "../components";
 import { Stack } from "expo-router";
+import { SIZES } from "../constants";
 
 const width = Dimensions.get("window").width;
 
@@ -32,10 +40,14 @@ const ManageItems = () => {
       />
       <View style={common.scrollView}>
         {myItems().length > 0 && (
-          <View style={common.myItems}>
+          <View style={styles.container}>
             <FlatList
               data={myItems()}
               renderItem={({ item }) => <ManageItemCard item={item} />}
+              columnWrapperStyle={{
+                justifyContent: "space-around",
+              }}
+              contentContainerStyle={{ gap: 10 }}
               keyExtractor={(item) => item?.id}
               numColumns={columnNum}
               scrollEnabled={false}
@@ -50,3 +62,11 @@ const ManageItems = () => {
 };
 
 export default ManageItems;
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+    minHeight: 200,
+  },
+});

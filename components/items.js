@@ -31,6 +31,10 @@ const Items = () => {
           renderItem={({ item }) => <ItemCard item={item} />}
           keyExtractor={(item) => item?.id}
           numColumns={columnNum}
+          columnWrapperStyle={{
+            justifyContent: "space-around",
+          }}
+          contentContainerStyle={{ gap: 5 }}
           scrollEnabled={false}
         />
       )}

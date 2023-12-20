@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { appContext, width } from "../../grobal/context";
 import { ItemCard } from "../../components";
+import { SIZES } from "../../constants";
 
 const Category = () => {
   const { cat } = useLocalSearchParams();
@@ -31,11 +32,13 @@ const Category = () => {
       />
 
       <ScrollView>
-        <View>
+        <View style={styles.container}>
           <FlatList
             data={catItems()}
             renderItem={({ item }) => <ItemCard item={item} />}
             keyExtractor={(item) => item?.id}
+            columnWrapperStyle={{ justifyContent: "space-around" }}
+            contentContainerStyle={{ gap: 5 }}
             numColumns={columnNum}
             scrollEnabled={false}
           />
@@ -49,4 +52,9 @@ const Category = () => {
 
 export default Category;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    marginTop: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+  },
+});

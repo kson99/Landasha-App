@@ -9,7 +9,7 @@ import { COLORS, SIZES } from "../../constants";
 
 const HomeTab = () => {
   return (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.scrollContainer}>
         <View style={styles.rentClosetContainer}>
           <ForSale />

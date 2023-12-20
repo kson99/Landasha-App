@@ -23,14 +23,16 @@ const OtherTabs = () => {
   };
 
   return (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         {catItems().length > 0 ? (
           <FlatList
             data={catItems()}
             renderItem={({ item }) => <ItemCard item={item} />}
+            contentContainerStyle={{ gap: 5 }}
             keyExtractor={(item) => item?.id}
             numColumns={columnNum}
+            columnWrapperStyle={{ justifyContent: "space-around" }}
             scrollEnabled={false}
           />
         ) : (
@@ -49,6 +51,8 @@ export default OtherTabs;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
   },
 
   header: {

@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    fontSize: SIZES.large,
+    fontSize: SIZES.medium,
     fontWeight: "bold",
     color: COLORS.primary,
   },

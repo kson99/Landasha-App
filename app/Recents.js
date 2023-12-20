@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
 import { appContext, width } from "../grobal/context";
 import { ItemCard } from "../components";
+import { SIZES } from "../constants";
 
 const Recents = () => {
   const { items } = useContext(appContext);
@@ -12,12 +13,14 @@ const Recents = () => {
   });
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <FlatList
         data={sorted}
         renderItem={({ item }) => <ItemCard item={item} />}
+        contentContainerStyle={{ gap: 5 }}
         keyExtractor={(item) => item?.id}
         numColumns={columnNum}
+        columnWrapperStyle={{ justifyContent: "space-around" }}
       />
 
       <View style={{ height: 20 }} />
@@ -27,4 +30,10 @@ const Recents = () => {
 
 export default Recents;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+  },
+});

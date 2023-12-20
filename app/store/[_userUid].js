@@ -83,6 +83,10 @@ const Store = () => {
             <FlatList
               data={myItems()}
               renderItem={({ item }) => <ItemCard item={item} />}
+              columnWrapperStyle={{
+                justifyContent: "space-around",
+              }}
+              contentContainerStyle={{ gap: 5 }}
               keyExtractor={(item) => item?.id}
               numColumns={columnNum}
               scrollEnabled={false}
