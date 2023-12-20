@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { HeaderBtn, PlatformSafeAreaView, ResultItemCard } from "../components";
-import { COLORS } from "../constants";
+import { COLORS, SIZES } from "../constants";
 import { useRouter } from "expo-router";
-import { common, search } from "../styles";
+import { common } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { appContext } from "../grobal/context";
 
@@ -42,16 +43,16 @@ const Search = () => {
 
   return (
     <PlatformSafeAreaView>
-      <View style={search.appBar}>
+      <View style={styles.appBar}>
         <HeaderBtn
           name="chevron-back"
           color={COLORS.lightGrey}
           handlePress={() => router.back()}
         />
 
-        <View style={search.searchBox}>
+        <View style={styles.searchBox}>
           <TextInput
-            style={search.searchInput}
+            style={styles.searchInput}
             value={searchTxt}
             onChangeText={(txt) => {
               setSearchTxt(txt);
@@ -60,7 +61,7 @@ const Search = () => {
           />
         </View>
 
-        <TouchableOpacity style={search.btn} onPress={onSearch}>
+        <TouchableOpacity style={styles.btn} onPress={onSearch}>
           <Ionicons name="search" size={35} color={COLORS.lightGrey} />
         </TouchableOpacity>
       </View>
@@ -73,13 +74,15 @@ const Search = () => {
           {/* <Text>results for: {searchTxt}</Text> */}
 
           <FlatList
-            style={search.list}
+            style={styles.list}
             data={results}
             renderItem={({ item }) => <ResultItemCard item={item} />}
             keyExtractor={(item) => item?.id}
             // showsVerticalScrollIndicator={false}
             scrollEnabled={false}
           />
+
+          <View style={{ height: 50 }} />
         </ScrollView>
       )}
     </PlatformSafeAreaView>
@@ -87,3 +90,37 @@ const Search = () => {
 };
 
 export default Search;
+
+const styles = StyleSheet.create({
+  appBar: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 50,
+  },
+
+  searchBox: {
+    backgroundColor: COLORS.background,
+    width: "75%",
+    height: 35,
+    borderRadius: 10,
+  },
+
+  searchInput: {
+    width: "100%",
+    height: "100%",
+    paddingHorizontal: SIZES.small,
+  },
+
+  btn: {
+    padding: 1,
+    borderRadius: 50,
+  },
+
+  list: {
+    borderTopColor: COLORS.background,
+    borderTopWidth: 4,
+    paddingVertical: SIZES.xxSmall,
+  },
+});

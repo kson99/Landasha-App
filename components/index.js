@@ -1,24 +1,24 @@
-import HeaderBtn from "./header/headerBtn/headerBtn";
-import Categories from "./categories/categories";
-import Closets from "./closets/closets";
-import Rentals from "./rentals/rentals";
-import ForSale from "./forSale/forSale";
-import Items from "./items/items";
-import Recents from "./recents/recents";
-import SearchBtn from "./header/searchBtn/searchBtn";
-import ItemCard from "./cards/itemCard/itemCard";
-import ResultItemCard from "./cards/resultItemCard/resultItemCard";
-import CollectionCard from "./cards/collectionCard/collectionCard";
-import StoreCard from "./cards/storeCard/storeCard";
-import Profile from "./profile/profile";
+import HeaderBtn from "./header/headerBtn";
+import Closets from "./closets";
+import Rentals from "./rentals";
+import ForSale from "./forSale";
+import Items from "./items";
+import Recents from "./recents";
+import SearchBtn from "./header/searchBtn";
+import ItemCard from "./cards/itemCard";
+import ResultItemCard from "./cards/resultItemCard";
+import CollectionCard from "./cards/collectionCard";
+import StoreCard from "./storeCard";
+import Profile from "./profile";
 import PlatformSafeAreaView from "./safeAreaView";
-import ManageItemCard from "./cards/manageItemCard/manageItemCard";
-import Input from "./input/input";
+import ManageItemCard from "./cards/manageItemCard";
+import Input from "./input";
+import HomeTab from "./homeTabs/homeTab";
+import OtherTabs from "./homeTabs/otherTabs";
 
 export {
   SearchBtn,
   HeaderBtn,
-  Categories,
   Closets,
   Rentals,
   ForSale,
@@ -32,4 +32,6 @@ export {
   PlatformSafeAreaView,
   ManageItemCard,
   Input,
+  HomeTab,
+  OtherTabs,
 };

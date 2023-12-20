@@ -20,6 +20,13 @@ function Layout() {
         <Stack.Screen name="edit-item/[_id]" />
 
         <Stack.Screen
+          name="Recents"
+          options={{
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
           name="Login"
           options={{
             headerTitleAlign: "center",
@@ -29,11 +36,10 @@ function Layout() {
         />
 
         <Stack.Screen
-          name="Group"
+          name="category/[cat]"
           options={{
             headerTitleAlign: "center",
             headerBackTitleVisible: false,
-            // headerShadowVisible: false,
           }}
         />
 

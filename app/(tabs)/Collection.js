@@ -1,9 +1,9 @@
-import { View, Text, SafeAreaView, FlatList } from "react-native";
-import React, { useContext, useEffect } from "react";
+import { View, FlatList, StyleSheet } from "react-native";
+import React, { useContext } from "react";
 import { useRouter } from "expo-router";
-import { collection as style } from "../../styles";
 import { appContext } from "../../grobal/context";
 import { CollectionCard } from "../../components";
+import { SIZES } from "../../constants";
 
 const Collection = () => {
   const { items, isLoading, error, collection } = useContext(appContext);
@@ -27,7 +27,7 @@ const Collection = () => {
   return (
     <View>
       <FlatList
-        style={style.list}
+        style={styles.list}
         data={collectionItems()}
         renderItem={({ item }) => <CollectionCard item={item} />}
         contentContainerStyle={{ gap: 2 }}
@@ -37,3 +37,9 @@ const Collection = () => {
 };
 
 export default Collection;
+
+const styles = StyleSheet.create({
+  list: {
+    paddingVertical: SIZES.xxSmall,
+  },
+});

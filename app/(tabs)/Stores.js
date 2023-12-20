@@ -1,8 +1,8 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import React, { useContext } from "react";
 import { appContext } from "../../grobal/context";
 import { StoreCard } from "../../components";
-import { stores } from "../../styles";
+import { SIZES } from "../../constants";
 
 const Stores = () => {
   const { users } = useContext(appContext);
@@ -10,7 +10,7 @@ const Stores = () => {
   return (
     <View>
       <FlatList
-        style={stores.list}
+        style={styles.list}
         data={users}
         renderItem={({ item }) => <StoreCard item={item} />}
         show
@@ -20,3 +20,9 @@ const Stores = () => {
 };
 
 export default Stores;
+
+const styles = StyleSheet.create({
+  list: {
+    paddingVertical: SIZES.xxSmall,
+  },
+});

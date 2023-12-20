@@ -4,48 +4,50 @@ import {
   FlatList,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
+  Modal,
+  Pressable,
   Image,
   StyleSheet,
 } from "react-native";
-import React, { useContext } from "react";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { common } from "../../styles";
-import { appContext } from "../../grobal/context";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { COLORS, SIZES } from "../../constants";
-import { ItemCard } from "../../components";
+import React, { useContext, useState } from "react";
+import { appContext } from "../grobal/context";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import { COLORS, SIZES } from "../constants";
+import ItemCard from "./cards/itemCard";
+import { common } from "../styles";
+import ProfileMenu from "./profileMenu";
 
 const width = Dimensions.get("window").width;
 
-const Store = () => {
-  const { items, users } = useContext(appContext);
+const Profile = () => {
+  const { items, user } = useContext(appContext);
   const columnNum = Math.floor(width / 180);
-  const { _userUid } = useLocalSearchParams();
-  const user = users.find(({ userUid }) => userUid === _userUid);
+  const [isMenu, setIsMenu] = useState(false);
 
   const myItems = () => {
-    let _items;
-    if (user) {
-      _items = items.filter(({ owner }) => owner === user.userUid);
-    }
+    let _items = [];
+
+    items.map((itm) => {
+      if (itm.owner === user.userUid) {
+        _items.push(itm);
+      }
+    });
 
     return _items;
   };
 
   return (
-    <ScrollView style={common.scrollView} showsVerticalScrollIndicator={false}>
-      <Stack.Screen
-        options={{
-          title: user?.shopName,
-          headerTitleAlign: "center",
-        }}
-      />
-
+    <ScrollView showsVerticalScrollIndicator={false} style={common.scrollView}>
       <View style={styles.profCard}>
         <View>
           {user?.imageUrl ? (
             <Image
-              source={{ uri: user?.imageUrl }}
+              source={{ uri: user.imageUrl }}
               resizeMode="cover"
               style={styles.image}
             />
@@ -61,6 +63,8 @@ const Store = () => {
         </View>
 
         <View>
+          <Text style={styles.shopName}>{user?.shopName}</Text>
+
           <View style={styles.locationCont}>
             <Ionicons name="location" color={COLORS.grey} />
             <Text style={styles.location}>{user?.location}</Text>
@@ -75,9 +79,13 @@ const Store = () => {
             <Text style={styles.location}>Items: {myItems().length}</Text>
           </View>
         </View>
+
+        <TouchableOpacity style={styles.option} onPress={() => setIsMenu(true)}>
+          <Ionicons name="ellipsis-vertical" size={25} color={COLORS.primary} />
+        </TouchableOpacity>
       </View>
 
-      <View>
+      <View style={common.scrollView}>
         {myItems().length > 0 && (
           <View style={styles.myItems}>
             <FlatList
@@ -89,32 +97,49 @@ const Store = () => {
             />
           </View>
         )}
-
-        <View style={{ height: 100 }}></View>
       </View>
+
+      <Modal
+        visible={isMenu}
+        animationType="fade"
+        onRequestClose={() => setIsMenu(false)}
+        transparent
+      >
+        <View style={common.modalCont}>
+          <Pressable
+            style={common.modalClose}
+            onPress={() => setIsMenu(false)}
+          />
+          <View style={common.modalMenu}>
+            <ProfileMenu close={setIsMenu} />
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
 
-export default Store;
+export default Profile;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
   profCard: {
-    // height: 100,
+    position: "relative",
+    height: 100,
     flexDirection: "row",
-    alignItems: "center",
     gap: 15,
+    paddingVertical: 10,
     paddingHorizontal: SIZES.small,
     backgroundColor: COLORS.white,
-    paddingBottom: 10,
-    paddingTop: 5,
   },
 
   image: {
     height: 60,
     width: 60,
     borderRadius: 3,
-    backgroundColor: COLORS.lightGrey,
   },
 
   shopName: {
@@ -143,5 +168,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.xxSmall,
     minHeight: 200,
     justifyContent: "center",
+  },
+
+  option: {
+    position: "absolute",
+    right: 15,
+    top: 15,
+  },
+
+  menu: {
+    height: 500,
+    position: "absolute",
+    right: 10,
+    // top: 5,
+    bottom: 10,
+    backgroundColor: COLORS.custGrey,
+    zIndex: 999,
   },
 });

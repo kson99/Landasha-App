@@ -27,9 +27,13 @@ const Login = () => {
     } catch (error) {
       if (error.message.includes("wrong-password")) {
         alert("Wrong Login credentials! Please try again.");
+      } else if (error.message.includes("user-not-found")) {
+        alert("Invalid Credentials!");
       } else if (error.message.includes("network-request-failed")) {
         alert("Network error!");
       } else if (error.message.includes("too-many-requests")) {
+        alert(error.message.split(": ")[1]);
+      } else {
         alert(error.message.split(": ")[1]);
       }
     }

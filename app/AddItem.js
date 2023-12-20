@@ -2,16 +2,16 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   ScrollView,
   Pressable,
   Modal,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-gesture-handler";
-import { addItem, common } from "../styles";
+import { common } from "../styles";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants";
@@ -100,7 +100,7 @@ const AddItem = () => {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={addItem.page}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.page}>
       <Stack.Screen
         options={{
           headerRight: () => (
@@ -108,7 +108,7 @@ const AddItem = () => {
           ),
         }}
       />
-      <View style={addItem.form}>
+      <View style={styles.form}>
         <View>
           <Text style={common.inputLabel}>Name</Text>
           <Controller
@@ -165,18 +165,18 @@ const AddItem = () => {
 
         <View>
           <Text style={common.inputLabel}>Images</Text>
-          <View style={addItem.images}>
+          <View style={styles.images}>
             {images.map((image, _i) => (
-              <View key={_i} style={addItem.imageHolder}>
+              <View key={_i} style={styles.imageHolder}>
                 <Image
                   source={{ uri: image }}
                   resizeMode="cover"
-                  style={addItem.image}
+                  style={styles.image}
                 />
 
                 <Pressable
                   onPress={() => removeImage(_i)}
-                  style={addItem.remove}
+                  style={styles.remove}
                 >
                   <Ionicons name="close-circle" color="red" size={20} />
                 </Pressable>
@@ -184,13 +184,13 @@ const AddItem = () => {
             ))}
 
             {images.length < 5 && (
-              <Pressable onPress={imagePicker} style={addItem.upload}>
+              <Pressable onPress={imagePicker} style={styles.upload}>
                 <Ionicons
                   name="cloud-upload-outline"
                   size={30}
                   color={COLORS.grey}
                 />
-                <Text style={addItem.uploadText}>Add image</Text>
+                <Text style={styles.uploadText}>Add image</Text>
               </Pressable>
             )}
           </View>
@@ -250,3 +250,57 @@ const AddItem = () => {
 };
 
 export default AddItem;
+
+const styles = StyleSheet.create({
+  page: {
+    width: "100%",
+    padding: 20,
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+
+  form: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 25,
+  },
+
+  images: {
+    minWidth: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 20,
+  },
+
+  imageHolder: {
+    position: "relative",
+  },
+
+  image: {
+    height: 100,
+    width: 100,
+  },
+
+  remove: {
+    position: "absolute",
+    right: -13,
+    top: -13,
+  },
+
+  upload: {
+    borderWidth: 1,
+    borderColor: COLORS.grey,
+    borderRadius: 2,
+    width: 100,
+    height: 100,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  uploadText: {
+    fontSize: 12,
+    paddingTop: 2,
+    color: COLORS.grey,
+  },
+});

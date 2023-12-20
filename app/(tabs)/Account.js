@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useContext, useLocation } from "react";
 import logo from "../../assets/logo.png";
-import { account, common } from "../../styles";
+import { common } from "../../styles";
 import { useRouter } from "expo-router";
 import { appContext } from "../../grobal/context";
 import { PlatformSafeAreaView, Profile } from "../../components";
@@ -24,7 +24,7 @@ const Account = () => {
       {error ? (
         <View style={styles.container}>
           <Ionicons name="wifi" size={60} color="red" />
-          <Text style={styles.text}>Network Error !</Text>
+          <Text style={styles.netErr}>Network Error !</Text>
         </View>
       ) : loggedIn ? (
         <View>
@@ -33,9 +33,9 @@ const Account = () => {
       ) : (
         <View style={common.page}>
           <View style={common.form}>
-            <Image source={logo} resizeMode="contain" style={account.image} />
+            <Image source={logo} resizeMode="contain" style={styles.image} />
 
-            <Text style={account.text}>
+            <Text style={styles.text}>
               {" "}
               If you're a store owner or representative, want to create a store.
               Click on the respective button below.
@@ -71,11 +71,22 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
 
-  text: {
+  netErr: {
     color: "red",
     fontWeight: "800",
     paddingTop: 5,
     letterSpacing: 1.5,
     opacity: 0.8,
+  },
+
+  image: {
+    width: 300,
+    height: 300,
+  },
+
+  text: {
+    maxWidth: "70%",
+    textAlign: "center",
+    color: COLORS.primary,
   },
 });

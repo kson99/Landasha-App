@@ -3,16 +3,16 @@ import {
   Text,
   ScrollView,
   TextInput,
-  TouchableOpacity,
   Pressable,
   Image,
   Modal,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { appContext, url } from "../grobal/context";
-import { common, editStore } from "../styles";
+import { common } from "../styles";
 import { Picker } from "@react-native-picker/picker";
 import { COLORS, locations } from "../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -92,20 +92,20 @@ const EditStore = () => {
       />
 
       <View style={common.formV2}>
-        <View style={editStore.form}>
-          <Pressable onPress={imagePicker} style={editStore.imageHolder}>
+        <View style={styles.form}>
+          <Pressable onPress={imagePicker} style={styles.imageHolder}>
             <View>
               {image ? (
                 <Image
                   source={{ uri: image }}
                   resizeMode="contain"
-                  style={editStore.image}
+                  style={styles.image}
                 />
               ) : user?.imageUrl ? (
                 <Image
                   source={{ uri: user.imageUrl }}
                   resizeMode="cover"
-                  style={editStore.image}
+                  style={styles.image}
                 />
               ) : (
                 <View>
@@ -212,3 +212,23 @@ const EditStore = () => {
 };
 
 export default EditStore;
+
+const styles = StyleSheet.create({
+  form: {
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    paddingBottom: 20,
+  },
+
+  imageHolder: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  image: {
+    width: 180,
+    height: 180,
+    backgroundColor: COLORS.lightGrey,
+  },
+});
